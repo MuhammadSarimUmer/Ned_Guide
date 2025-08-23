@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ned_guide/department_detail.dart';
+import 'package:ned_guide/departmentdetailpage.dart';
 import 'package:ned_guide/homescreenpage.dart';
 import 'package:ned_guide/loginpage.dart';
+import 'package:ned_guide/neddeparment_dummydata.dart';
 
 void main() {
   runApp(const MyApp());
@@ -51,7 +52,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: DepartmentDetail(),
+      home: LoginPage(),
       debugShowCheckedModeBanner: false,
     );
   }

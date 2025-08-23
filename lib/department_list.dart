@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ned_guide/departmentdetailpage.dart';
 import 'package:ned_guide/neddeparment_dummydata.dart';
 
 class DepartmentList extends StatefulWidget {
@@ -20,7 +21,15 @@ class _DepartmentListState extends State<DepartmentList> {
           final department = getAllDepartments()[index];
 
           return GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      Departmentdetailpage(department: department),
+                ),
+              );
+            },
             child: Container(
               width: 180,
               margin: EdgeInsets.only(right: 12),
