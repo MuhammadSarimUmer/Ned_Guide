@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ned_guide/homescreenpage.dart';
 import 'package:ned_guide/signuppage.dart';
 
 class LoginPage extends StatefulWidget {
@@ -10,6 +11,31 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool _obscurePassword = true;
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  void _handleLogin() {
+    if (_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Login Successful!"),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const Homescreenpage()),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +46,7 @@ class _LoginPageState extends State<LoginPage> {
           child: SingleChildScrollView(
             child: Center(
               child: Form(
+                key: _formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -72,7 +99,10 @@ class _LoginPageState extends State<LoginPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       child: TextFormField(
+                        controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: InputDecoration(
                           hintText: 'Email (e.g., student@cloud.neduet.edu.pk)',
                           hintStyle: TextStyle(
@@ -97,16 +127,10 @@ class _LoginPageState extends State<LoginPage> {
                             return 'Email is required';
                           }
 
-                          if (!value.toLowerCase().endsWith(
-                            '@cloud.neduet.edu.pk',
-                          )) {
-                            return 'Please use your NED Cloud ID (@cloud.neduet.edu.pk)';
-                          }
-
                           if (!RegExp(
                             r'^[a-zA-Z0-9._%+-]+@cloud\.neduet\.edu\.pk$',
-                          ).hasMatch(value)) {
-                            return 'Please enter a valid NED email format';
+                          ).hasMatch(value.trim())) {
+                            return 'Please enter a valid NED email (@cloud.neduet.edu.pk)';
                           }
 
                           return null;
@@ -117,7 +141,11 @@ class _LoginPageState extends State<LoginPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       child: TextFormField(
+                        controller: _passwordController,
                         obscureText: _obscurePassword,
+                        textInputAction: TextInputAction.done,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        onFieldSubmitted: (_) => _handleLogin(),
                         decoration: InputDecoration(
                           hintText: 'Password',
                           hintStyle: TextStyle(
@@ -153,9 +181,11 @@ class _LoginPageState extends State<LoginPage> {
                           if (value == null || value.trim().isEmpty) {
                             return 'Password is required';
                           }
-                          if (value.length < 6) {
+
+                          if (!RegExp(r'^.{6,}$').hasMatch(value)) {
                             return 'Password must be at least 6 characters';
                           }
+
                           return null;
                         },
                       ),
@@ -164,7 +194,7 @@ class _LoginPageState extends State<LoginPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 35),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: _handleLogin,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFF8E4EC6),
                           foregroundColor: Colors.white,

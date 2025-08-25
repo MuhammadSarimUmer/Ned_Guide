@@ -11,6 +11,32 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
+  final _formKey = GlobalKey<FormState>();
+  final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  void _handleSignUp() {
+    if (_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Account Created! Please login with your credentials."),
+          duration: Duration(seconds: 4),
+        ),
+      );
+      Navigator.pop(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +54,7 @@ class _SignUpPageState extends State<SignUpPage> {
       body: SingleChildScrollView(
         child: Center(
           child: Form(
+            key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -43,6 +70,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: TextFormField(
+                    controller: _usernameController,
+                    textInputAction: TextInputAction.next,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
                       hintText: 'Username',
@@ -67,9 +96,11 @@ class _SignUpPageState extends State<SignUpPage> {
                       if (value == null || value.trim().isEmpty) {
                         return 'Username is required';
                       }
-                      if (value.length < 3) {
+
+                      if (!RegExp(r'^.{3,}$').hasMatch(value.trim())) {
                         return 'Username must be at least 3 characters';
                       }
+
                       return null;
                     },
                   ),
@@ -78,7 +109,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: TextFormField(
+                    controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
                       hintText: 'Email',
@@ -104,17 +137,10 @@ class _SignUpPageState extends State<SignUpPage> {
                         return 'Email is required';
                       }
 
-                      if (!value.toLowerCase().endsWith(
-                        '@cloud.neduet.edu.pk',
-                      )) {
-                        return 'Please use your NED Cloud ID (@cloud.neduet.edu.pk)';
-                      }
-
-                      // Basic email format validation for NED domain
                       if (!RegExp(
                         r'^[a-zA-Z0-9._%+-]+@cloud\.neduet\.edu\.pk$',
-                      ).hasMatch(value)) {
-                        return 'Please enter a valid NED email format';
+                      ).hasMatch(value.trim())) {
+                        return 'Please enter a valid NED email (@cloud.neduet.edu.pk)';
                       }
 
                       return null;
@@ -125,7 +151,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: TextFormField(
+                    controller: _passwordController,
                     obscureText: _obscurePassword,
+                    textInputAction: TextInputAction.next,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
                       hintText: 'Password',
@@ -162,9 +190,11 @@ class _SignUpPageState extends State<SignUpPage> {
                       if (value == null || value.trim().isEmpty) {
                         return 'Password is required';
                       }
-                      if (value.length < 6) {
+
+                      if (!RegExp(r'^.{6,}$').hasMatch(value)) {
                         return 'Password must be at least 6 characters';
                       }
+
                       return null;
                     },
                   ),
@@ -173,8 +203,11 @@ class _SignUpPageState extends State<SignUpPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: TextFormField(
+                    controller: _confirmPasswordController,
                     obscureText: _obscureConfirmPassword,
+                    textInputAction: TextInputAction.done,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
+                    onFieldSubmitted: (_) => _handleSignUp(),
                     decoration: InputDecoration(
                       hintText: 'Confirm Password',
                       hintStyle: TextStyle(
@@ -211,6 +244,10 @@ class _SignUpPageState extends State<SignUpPage> {
                         return 'Please confirm your password';
                       }
 
+                      if (value != _passwordController.text) {
+                        return 'Passwords do not match';
+                      }
+
                       return null;
                     },
                   ),
@@ -219,22 +256,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 35),
                   child: ElevatedButton(
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            "Account Created, Login With Correct Details",
-                          ),
-                          duration: Duration(seconds: 4),
-                        ),
-                      );
-                      Navigator.pop(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginPage(),
-                        ),
-                      );
-                    },
+                    onPressed: _handleSignUp,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF8E4EC6),
                       foregroundColor: Colors.white,

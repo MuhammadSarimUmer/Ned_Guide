@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ned_guide/neddeparment_dummydata.dart';
+import 'package:ned_guide/applicationprovider.dart';
+import 'package:provider/provider.dart';
 
 class Departmentdetailpage extends StatefulWidget {
   final Map<String, dynamic> department;
@@ -367,34 +369,40 @@ class _DepartmentdetailpageState extends State<Departmentdetailpage> {
                           .toList(),
                     ),
                     Divider(),
-                    Text(
-                      'UnderGraduates:-',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                    if (department['numberOfPrograms']['undergraduate'] !=
+                        0) ...[
+                      Text(
+                        'UnderGraduates:-',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 20),
-                    ElevatedButton(onPressed: () {}, child: Text('TimeTable')),
-                    SizedBox(height: 8),
-                    ElevatedButton(onPressed: () {}, child: Text('OBE')),
-                    SizedBox(height: 8),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Text('ROOM/LAB Allocation'),
-                    ),
-                    SizedBox(height: 8),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Text('Academic Calender'),
-                    ),
-                    SizedBox(height: 8),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Text('Exam Schedule'),
-                    ),
-                    SizedBox(height: 20),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Text('TimeTable'),
+                      ),
+                      SizedBox(height: 8),
+                      ElevatedButton(onPressed: () {}, child: Text('OBE')),
+                      SizedBox(height: 8),
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Text('ROOM/LAB Allocation'),
+                      ),
+                      SizedBox(height: 8),
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Text('Academic Calender'),
+                      ),
+                      SizedBox(height: 8),
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Text('Exam Schedule'),
+                      ),
+                      SizedBox(height: 20),
+                    ],
                     Divider(),
                     if (department['numberOfPrograms']['postgraduate'] !=
                         0) ...[
@@ -462,6 +470,62 @@ class _DepartmentdetailpageState extends State<Departmentdetailpage> {
                       ),
                     ],
                     SizedBox(height: 8),
+                    Divider(),
+                    SizedBox(height: 8),
+                    Divider(),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Create application data
+                          final applicationData = {
+                            'id': DateTime.now().millisecondsSinceEpoch
+                                .toString(),
+                            'name': department['name'],
+                            'image': department['image'],
+                            'status': 'Pending',
+                            'appliedDate': '27 Aug 2025',
+                            'departmentData':
+                                department, // Store full department data for future use
+                          };
+
+                          // Add to provider
+                          Provider.of<ApplicationProvider>(
+                            context,
+                            listen: false,
+                          ).addApplication(applicationData);
+
+                          // Show success message
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Application Submitted Successfully!',
+                              ),
+                              duration: Duration(seconds: 2),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all(
+                            Colors.pinkAccent,
+                          ),
+                          foregroundColor: WidgetStateProperty.all(
+                            Colors.white,
+                          ),
+                          padding: WidgetStateProperty.all(
+                            EdgeInsets.symmetric(vertical: 15),
+                          ),
+                        ),
+                        child: Text(
+                          'Apply For Admission',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

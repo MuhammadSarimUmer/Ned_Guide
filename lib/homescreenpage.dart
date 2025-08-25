@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ned_guide/applicationspage.dart';
 import 'package:ned_guide/neduniversitycard.dart';
 import 'package:ned_guide/department_list.dart';
+import 'package:ned_guide/profilepage.dart';
 import 'package:ned_guide/todaysclasses.dart';
 import 'package:ned_guide/newsandeventswidget.dart';
 
@@ -16,6 +18,30 @@ class _HomescreenpageState extends State<Homescreenpage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person_4),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Profilepage()),
+              );
+            },
+            iconSize: 30,
+          ),
+          IconButton(
+            icon: const Icon(Icons.paste_sharp),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Applicationspage(),
+                ),
+              );
+            },
+            iconSize: 30,
+          ),
+        ],
         surfaceTintColor: Colors.transparent,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         title: const Text(
