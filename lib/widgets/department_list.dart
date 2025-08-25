@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ned_guide/departmentdetailpage.dart';
-import 'package:ned_guide/neddeparment_dummydata.dart';
+import 'package:ned_guide/pages/departmentdetailpage.dart';
+import 'package:ned_guide/dummy_data/neddeparment_dummydata.dart';
 
 class DepartmentList extends StatefulWidget {
   const DepartmentList({super.key});

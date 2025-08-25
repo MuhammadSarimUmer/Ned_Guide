@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:ned_guide/applicationprovider.dart';
-import 'package:ned_guide/departmentdetailpage.dart';
-import 'package:ned_guide/homescreenpage.dart';
-import 'package:ned_guide/loginpage.dart';
-import 'package:ned_guide/neddeparment_dummydata.dart';
+import 'package:ned_guide/provider/applicationprovider.dart';
+import 'package:ned_guide/pages/departmentdetailpage.dart';
+import 'package:ned_guide/pages/homescreenpage.dart';
+import 'package:ned_guide/pages/loginpage.dart';
+import 'package:ned_guide/dummy_data/neddeparment_dummydata.dart';
 import 'package:provider/provider.dart';
 
 void main() {

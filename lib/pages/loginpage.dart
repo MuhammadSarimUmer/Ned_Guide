@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ned_guide/homescreenpage.dart';
-import 'package:ned_guide/signuppage.dart';
+import 'package:ned_guide/pages/homescreenpage.dart';
+import 'package:ned_guide/pages/signuppage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

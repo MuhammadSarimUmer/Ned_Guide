@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ned_guide/applicationprovider.dart';
+import 'package:ned_guide/provider/applicationprovider.dart';
 import 'package:provider/provider.dart';
 
 class Applicationspage extends StatefulWidget {

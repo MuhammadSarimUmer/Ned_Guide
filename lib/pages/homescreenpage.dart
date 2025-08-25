@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:ned_guide/applicationspage.dart';
-import 'package:ned_guide/neduniversitycard.dart';
-import 'package:ned_guide/department_list.dart';
-import 'package:ned_guide/profilepage.dart';
-import 'package:ned_guide/todaysclasses.dart';
-import 'package:ned_guide/newsandeventswidget.dart';
+import 'package:ned_guide/pages/applicationspage.dart';
+import 'package:ned_guide/widgets/neduniversitycard.dart';
+import 'package:ned_guide/widgets/department_list.dart';
+import 'package:ned_guide/pages/profilepage.dart';
+import 'package:ned_guide/widgets/todaysclasses.dart';
+import 'package:ned_guide/widgets/newsandeventswidget.dart';
 
 class Homescreenpage extends StatefulWidget {
   const Homescreenpage({super.key});

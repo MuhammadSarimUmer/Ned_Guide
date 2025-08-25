@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ned_guide/news_data.dart';
-import 'package:ned_guide/ned_events.dart';
+import 'package:ned_guide/dummy_data/news_data.dart';
+import 'package:ned_guide/dummy_data/ned_events.dart';
 
 class NewsAndEventsList extends StatefulWidget {
   const NewsAndEventsList({super.key});
